@@ -9,6 +9,8 @@ import notFound from "./middlewares/notFound";
 import { connect } from "./database/connection";
 import productRouters from "./routers/products";
 
+
+
 type Env = {
     PORT: string | number;
     IP: string | number;
@@ -31,7 +33,6 @@ const MONGO_URL = env.MONGO_URL!;
 app.get("/", (req: Request, res: Response) => {
     res.send(`<h1>Store API</h1> <a href = "/api/v1/products> Products Route</a>`);
 });
-
 
 app.use(addressEndPoints.productsAPI, productRouters);
 app.use(notFound);
