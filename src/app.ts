@@ -9,8 +9,6 @@ import notFound from "./middlewares/notFound";
 import { connect } from "./database/connection";
 import productRouters from "./routers/products";
 
-
-
 type Env = {
     PORT: string | number;
     IP: string | number;
