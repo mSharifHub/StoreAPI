@@ -2,12 +2,13 @@ import express from "express";
 import { Request, Response } from "express";
 const app = express();
 app.use(express.json());
-import dotenv from "dotenv";
+import * as  dotenv from "dotenv";
 dotenv.config();
 import errorHandler from "./middlewares/errorHandlerMiddleWare";
 import notFound from "./middlewares/notFound";
 import { connect } from "./database/connection";
 import productRouters from "./routers/products";
+import ProductModel from "./models/products";
 
 type Env = {
     PORT: string | number;
@@ -40,7 +41,21 @@ const start = async () => {
     try {
         await connect(MONGO_URL);
         app.listen(PORT, () => console.log(`Listening to http://${IP}:${PORT}`));
-    } catch (err) {}
+
+        // const product =await ProductModel.create({
+        //     name:"Test Product",
+        //     description:"Running a Test",
+        //     price:20,
+        //     stock: 1,
+        //     category:'test a product',
+        //     createdAt: new Date(),
+        //     vendors:"amazon",
+        // })
+        // const product = await ProductModel.deleteMany({})
+      
+    } catch (err) {
+        console.log(err)
+    }
 };
 
 start();
