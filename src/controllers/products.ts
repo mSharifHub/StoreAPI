@@ -29,24 +29,26 @@ export const getAllProducts = async (req: Request, res: Response) => {
 };
 
 export const getSortedProducts = async (req: Request, res: Response) => {
+    try {
+        const { sort } = req.query;
 
-    const sortParams: any = req.query.sort;
+        const queryObject = {};
 
-    let query: any = {};
+        let results = ProductModel.find(queryObject);
 
-    let results = ProductModel.find(query);
+        if (typeof sort === "string") {
+            const sortedList: string = sort.split(",").join(" ");
+            results = results.sort(sortedList);
+        } else {
+            results = results.sort("createdAt");
+        }
 
-    if (typeof sortParams === "string") {
-        // the sortList params should be split on comma and a space should be added  Ex. -name price when -name,price is typed
-        const sortList: string = sortParams.split(',').join(" ")
-        results = results.sort(sortList);
-    } else {
-        results = results.sort("createdAt");
+        const products = await results;
+
+        res.status(200).json({ products: products, nbHits: products.length });
+    } catch (err) {
+        res.status(500).json({ message: err });
     }
-
-    const products = await results;
-
-    res.status(200).json({ products: products, nbHits: products.length });
 };
 
 export const getProductQuery = async (req: Request, res: Response) => {
