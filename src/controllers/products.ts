@@ -75,3 +75,21 @@ export const getQueryProducts = async (req: Request, res: Response) => {
         res.status(500).json({ message: `internal error\nerror:${err}\n` });
     }
 };
+
+export const createProduct = async (req: Request, res: Response) => {
+    try {
+        const { product } = req.body;
+
+        const newProduct = new ProductModel(product);
+
+        const savedInDataBase = await newProduct.save();
+
+        if (savedInDataBase) {
+            res.status(201).json({ created: true, product: savedInDataBase });
+        } else {
+            res.status(400).json({ created: false, message: "item not saved. check if all fields have been filled" });
+        }
+    } catch (err) {
+        res.status(500).json({ message: `internal error\nerror:${err}\n` });
+    }
+};
