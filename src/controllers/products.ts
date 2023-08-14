@@ -9,9 +9,11 @@ export const getAllProducts = async (req: Request, res: Response) => {
         // user can type products/?value
         const searchQuery = Object.values(req.query)[0];
 
+        // search for a string value and checks for empty string
         if (typeof searchQuery === "string" && searchQuery.trim() !== "") {
             const regex = new RegExp(searchQuery, "i");
 
+            // add the search qury on the  values of document to reflect the search
             query = {
                 $or: [{ name: { $regex: regex } }, { vendors: { $regex: regex } }, { category: { $regex: regex } }],
             };
@@ -24,6 +26,27 @@ export const getAllProducts = async (req: Request, res: Response) => {
         console.log(err);
         res.status(500).json({ mesasage: `Error occurred\nError:${err}` });
     }
+};
+
+export const getSortedProducts = async (req: Request, res: Response) => {
+
+    const sortParams: any = req.query.sort;
+
+    let query: any = {};
+
+    let results = ProductModel.find(query);
+
+    if (typeof sortParams === "string") {
+        // the sortList params should be split on comma and a space should be added  Ex. -name price when -name,price is typed
+        const sortList: string = sortParams.split(',').join(" ")
+        results = results.sort(sortList);
+    } else {
+        results = results.sort("createdAt");
+    }
+
+    const products = await results;
+
+    res.status(200).json({ products: products, nbHits: products.length });
 };
 
 export const getProductQuery = async (req: Request, res: Response) => {
