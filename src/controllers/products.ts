@@ -93,3 +93,23 @@ export const createProduct = async (req: Request, res: Response) => {
         res.status(500).json({ message: `internal error\nerror:${err}\n` });
     }
 };
+
+export const deleteProduct = async (req: Request, res: Response) => {
+    try {
+        const { name } = req.body;
+
+        // adding a new regular expression so the name can be case insensitive
+        const regex = new RegExp(name, "i");
+
+        // delete  name provided in the params
+        const result = await ProductModel.deleteOne({ name: { $regex: regex } });
+
+        if (result.deletedCount && result.deletedCount > 0) {
+            res.status(200).json({ deleted: true, message: `operation successful` });
+        } else {
+            res.status(404).json({ deleted: false, message: `operation failed` });
+        }
+    } catch (err) {
+        res.status(500).json({ message: `internal error\nerror:${err}\n` });
+    }
+};
