@@ -1,27 +1,21 @@
 import supertest from "supertest";
 import app from "../src/app";
 
-describe('StoreApi',()=>{
-
-    describe("Products API", () => {
-
-        it("should get all produrcts", async () => {
+describe("StoreApi", () => {
+    describe("Get All Products ", () => {
+        it("should get all products", async () => {
             const response = await supertest(app).get("/api/v1/products");
             expect(response.status).toBe(200);
-            expect(response.body).toHaveProperty("result");
-            expect(Array.isArray(response.body.result)).toBeTruthy();
         });
-    
     });
 
-    describe("Products")
-    
-    
-    
-
-
-
-
-})
-
-
+    describe("Get Single Product", () => {
+        it("given a product is not listed, it should give a status code 404", async () => {
+            const productName = "This product does not exist";
+            const response = await supertest(app).get(`/api/v1/products/getSingleProduct/${productName}`);
+            expect(response.status).toBe(404);
+            expect(typeof response.body).toBe("object");
+            expect(response.body).toHaveProperty("message" ,"Product not listed in the database");
+        });
+    });
+});

@@ -1,9 +1,10 @@
-import { Request, Response } from "express";
+import { Request, Response, response } from "express";
 import "express-async-errors";
 import ProductModel from "../models/products";
-import { type } from "os";
 
 export const getAllProducts = async (req: Request, res: Response) => {
+    const result: any = {};
+
     try {
         const page: number = Number(req.query.page) || 1;
 
@@ -13,27 +14,36 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
         const products = await ProductModel.find({}).skip(skip).limit(limit);
 
-        res.status(200).json({ result: products, nbHits: products.length });
+        result.products = products;
+        result.nbHits = products.length;
+
+        res.status(200).json(result);
     } catch (err) {
-        res.status(500).json({ message: `internal error\nerror:${err}\n` });
+        result.error = err;
+        result.message = "Internal error";
+        res.status(500).json(result);
     }
 };
 
 export const getSingleProduct = async (req: Request, res: Response) => {
-    try {
-        const { name } = req.body;
+    const { name } = req.params;
 
+    const result: any = {};
+    try {
         const regex = new RegExp(name, "i");
 
         const product = await ProductModel.findOne({ name: { $regex: regex } });
 
-        if ( name.trim()!== "" && product) {
-            res.status(200).json({ product });
+        if (name.trim() !== "" && product) {
+            result.name = product.name;
+            res.status(200).json(result);
         } else {
-            res.status(400).json({ mesaage: `Product not listed in the database` });
+            result.message = "Product not listed in the database";
+            res.status(404).json(result);
         }
     } catch (err) {
-        res.status(500).json({ message: `internal error\nerror:${err}\n` });
+        result.error = err;
+        res.status(500).json(result);
     }
 };
 
