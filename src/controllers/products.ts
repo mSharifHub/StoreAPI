@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import "express-async-errors";
 import ProductModel from "../models/products";
+import { type } from "os";
 
 export const getAllProducts = async (req: Request, res: Response) => {
     try {
@@ -13,6 +14,24 @@ export const getAllProducts = async (req: Request, res: Response) => {
         const products = await ProductModel.find({}).skip(skip).limit(limit);
 
         res.status(200).json({ result: products, nbHits: products.length });
+    } catch (err) {
+        res.status(500).json({ message: `internal error\nerror:${err}\n` });
+    }
+};
+
+export const getSingleProduct = async (req: Request, res: Response) => {
+    try {
+        const { name } = req.body;
+
+        const regex = new RegExp(name, "i");
+
+        const product = await ProductModel.findOne({ name: { $regex: regex } });
+
+        if ( name.trim()!== "" && product) {
+            res.status(200).json({ product });
+        } else {
+            res.status(400).json({ mesaage: `Product not listed in the database` });
+        }
     } catch (err) {
         res.status(500).json({ message: `internal error\nerror:${err}\n` });
     }
