@@ -8,6 +8,7 @@ import errorHandler from "./middlewares/errorHandlerMiddleWare";
 import notFound from "./middlewares/notFound";
 import { connect } from "./database/connection";
 import productRouters from "./routers/products";
+import auhtRouters from "./routers/auth";
 
 type Env = {
     PORT: string | number;
@@ -17,10 +18,12 @@ type Env = {
 
 interface EndPoints {
     productsAPI: string;
+    authAPI: string;
 }
 
 const addressEndPoints: EndPoints = {
     productsAPI: "/api/v1/products",
+    authAPI: "/api/v1/",
 };
 
 const env = process.env as Env;
@@ -33,6 +36,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use(addressEndPoints.productsAPI, productRouters);
+app.use(addressEndPoints.authAPI, auhtRouters);
 app.use(notFound);
 app.use(errorHandler);
 

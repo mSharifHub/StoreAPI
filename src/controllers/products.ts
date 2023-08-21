@@ -1,4 +1,4 @@
-import { Request, Response, response } from "express";
+import { Request, Response} from "express";
 import "express-async-errors";
 import ProductModel from "../models/products";
 
@@ -17,18 +17,18 @@ export const getAllProducts = async (req: Request, res: Response) => {
         result.products = products;
         result.nbHits = products.length;
 
-        res.status(200).json(result);
+        return res.status(200).json(result);
     } catch (err) {
         result.error = err;
         result.message = "Internal error";
-        res.status(500).json(result);
+        return res.status(500).json(result);
     }
 };
 
 export const getSingleProduct = async (req: Request, res: Response) => {
     const { name } = req.params;
-
     const result: any = {};
+
     try {
         const regex = new RegExp(name, "i");
 
@@ -36,14 +36,14 @@ export const getSingleProduct = async (req: Request, res: Response) => {
 
         if (name.trim() !== "" && product) {
             result.name = product.name;
-            res.status(200).json(result);
+            return res.status(200).json(result);
         } else {
             result.message = "Product not listed in the database";
-            res.status(404).json(result);
+            return res.status(404).json(result);
         }
     } catch (err) {
         result.error = err;
-        res.status(500).json(result);
+        return res.status(500).json(result);
     }
 };
 

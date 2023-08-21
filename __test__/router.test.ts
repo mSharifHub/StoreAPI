@@ -1,7 +1,9 @@
 import supertest from "supertest";
 import app from "../src/app";
+import { getAllProducts } from '../src/controllers/products';
 
 describe("StoreApi", () => {
+
     describe("Get All Products ", () => {
         it("should get all products", async () => {
             const response = await supertest(app).get("/api/v1/products");
@@ -15,7 +17,9 @@ describe("StoreApi", () => {
             const response = await supertest(app).get(`/api/v1/products/getSingleProduct/${productName}`);
             expect(response.status).toBe(404);
             expect(typeof response.body).toBe("object");
-            expect(response.body).toHaveProperty("message" ,"Product not listed in the database");
+            expect(response.body).toHaveProperty("message", "Product not listed in the database");
         });
     });
+
 });
+
