@@ -15,8 +15,8 @@ interface Product extends Document {
 
 //setting a scehma
 const ProductScheme: Schema = new Schema({
-    name: { type: String, required: true },
-    description: { type: String, required: true },
+    name: { type: String, required: [true, "A name is required"], minlength: 3 },
+    description: { type: String, required: [true, "A product description is required"] },
     price: { type: Number, required: true },
     stock: { type: Number, required: true },
     category: { type: String, required: true },
