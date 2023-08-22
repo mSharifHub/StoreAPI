@@ -7,6 +7,8 @@ const errorHandler = async (err: any, req: Request, res: Response, next: NextFun
         return res.status(err.statusCode).json({ message: err.message });
     }
     res.status(500).json({ status: "failure", error: err });
+
+    next();
 };
 
 export default errorHandler;
