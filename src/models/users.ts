@@ -1,11 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { genSalt, hash } from "bcrypt";
+import { sign } from "jsonwebtoken";
 
 interface User extends Document {
     username: string;
     email: string;
     password: string;
-    getName: Function;
+    createJWT: Function;
 }
 
 const UserSchema: Schema = new Schema({
@@ -19,7 +20,9 @@ UserSchema.pre("save", async function () {
     this.password = await hash(this.password, salt);
 });
 
-UserSchema.methods.getName = function(){return this.username}
+UserSchema.methods.createJWT = function () {
+    return sign({ userId: this._id, username: this.username }, "jwtSecret", { expiresIn: "7d" });
+};
 
 const UserModel = mongoose.model<User>("User", UserSchema);
 

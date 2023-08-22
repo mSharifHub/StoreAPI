@@ -8,12 +8,8 @@ import { sign } from "jsonwebtoken";
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await UserModel.create({ ...req.body });
-        
-
-        const token = sign({ userId: user._id, name: user.getName()}, "jwtSecret", {
-            expiresIn: "7d",
-        });
-        res.status(201).json({ user: { name:user.getName()  }, token: token });
+        const token = user.createJWT();
+        res.status(201).json({response:{ user: { name: user.username }, token: token }});
     } catch (err: any) {
         next(new CustomAPIError(500, err.message));
     }
