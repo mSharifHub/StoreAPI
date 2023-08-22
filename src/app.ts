@@ -10,7 +10,6 @@ import { connect } from "./database/connection";
 import productRouters from "./routers/products";
 import auhtRouters from "./routers/auth";
 
-
 interface EndPoints {
     productsAPI: string;
     authAPI: string;
@@ -20,7 +19,6 @@ const addressEndPoints: EndPoints = {
     productsAPI: "/api/v1/products",
     authAPI: "/api/v1/",
 };
-
 
 const PORT = process.env.PORT || 3000;
 const IP = process.env.IP!;
