@@ -1,6 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { genSalt, hash } from "bcrypt";
 import { sign } from "jsonwebtoken";
+const JWT = process.env.JWT_SECRET;
+const LIFETIME = process.env.JWT_LIFETIME;
 
 interface User extends Document {
     username: string;
@@ -21,7 +23,7 @@ UserSchema.pre("save", async function () {
 });
 
 UserSchema.methods.createJWT = function () {
-    return sign({ userId: this._id, username: this.username }, "jwtSecret", { expiresIn: "7d" });
+    return sign({ userId: this._id, username: this.username }, JWT!, { expiresIn: LIFETIME });
 };
 
 const UserModel = mongoose.model<User>("User", UserSchema);

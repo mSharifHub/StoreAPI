@@ -10,11 +10,6 @@ import { connect } from "./database/connection";
 import productRouters from "./routers/products";
 import auhtRouters from "./routers/auth";
 
-type Env = {
-    PORT: string | number;
-    IP: string | number;
-    MONGO_URL: string;
-};
 
 interface EndPoints {
     productsAPI: string;
@@ -26,10 +21,10 @@ const addressEndPoints: EndPoints = {
     authAPI: "/api/v1/",
 };
 
-const env = process.env as Env;
-const PORT = env.PORT || 3000;
-const IP = env.IP!;
-const MONGO_URL = env.MONGO_URL!;
+
+const PORT = process.env.PORT || 3000;
+const IP = process.env.IP!;
+const MONGO_URL = process.env.MONGO_URL!;
 
 app.get("/", (req: Request, res: Response) => {
     res.send(`<h1>Store API</h1> <a href = "/api/v1/products> Products Route</a>`);
