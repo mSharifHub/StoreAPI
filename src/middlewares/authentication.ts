@@ -3,8 +3,7 @@ import { verify } from "jsonwebtoken";
 import { CustomAPIError } from "./customError";
 import { NextFunction, Request, Response } from "express";
 
-
-export const authenticator = async (req:Request|any, res: Response, next: NextFunction) => {
+export const authenticator = async (req: Request, res: Response, next: NextFunction) => {
     const authHeader: Express.Request | string | any = req.body.headers;
 
     if (!authHeader || !authHeader.startsWith("Bearer")) {

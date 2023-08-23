@@ -2,13 +2,14 @@
     "compilerOptions": {
         "target": "ESNext",
         "module": "commonjs",
-        "typeRoots": ["node_modules/@types","./@types"],
+        "typeRoots": ["node_modules/@types", "./@types"],
         "outDir": "./dist",
         "moduleResolution": "node",
         "esModuleInterop": true,
         "strict": true,
         "resolveJsonModule": true
     },
-    "include": ["src/**/*.ts","src/*.d.ts"],
-    "exclude": ["node_modules"]
+    "include": ["src/**/*.ts", "src/*.d.ts"],
+    "exclude": ["node_modules"],
+    "files":["./@types/customRequest.d.ts"]
 }
