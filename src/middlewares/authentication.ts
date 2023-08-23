@@ -3,7 +3,8 @@ import { verify } from "jsonwebtoken";
 import { CustomAPIError } from "./customError";
 import { NextFunction, Request, Response } from "express";
 
-export const authenticator = async (req: Request, res: Response, next: NextFunction) => {
+
+export const authenticator = async (req:Request|any, res: Response, next: NextFunction) => {
     const authHeader: Express.Request | string | any = req.body.headers;
 
     if (!authHeader || !authHeader.startsWith("Bearer")) {
@@ -15,7 +16,7 @@ export const authenticator = async (req: Request, res: Response, next: NextFunct
 
     try {
         const payload: Function | any = verify(token, JWT!);
-        // req.user = { userId: payload.userId, username: payload.username };
+        req.user = { userId: payload.userId, username: payload.username };
         next();
     } catch (err: any) {
         next(new CustomAPIError(500, err.message));
