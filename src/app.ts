@@ -9,6 +9,7 @@ import notFound from "./middlewares/notFound";
 import { connect } from "./database/connection";
 import productRouters from "./routers/products";
 import auhtRouters from "./routers/auth";
+import { authenticator } from "./middlewares/authentication";
 
 interface EndPoints {
     productsAPI: string;
@@ -28,7 +29,7 @@ app.get("/", (req: Request, res: Response) => {
     res.send(`<h1>Store API</h1> <a href = "/api/v1/products> Products Route</a>`);
 });
 
-app.use(addressEndPoints.productsAPI, productRouters);
+app.use(addressEndPoints.productsAPI, authenticator, productRouters);
 app.use(addressEndPoints.authAPI, auhtRouters);
 app.use(notFound);
 app.use(errorHandler);
