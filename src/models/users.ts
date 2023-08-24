@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { genSalt, hash,compare } from "bcrypt";
+import { genSalt, hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { CustomAPIError } from "../middlewares/customError";
 const JWT = process.env.JWT_SECRET;
@@ -10,7 +10,7 @@ interface User extends Document {
     email: string;
     password: string;
     createJWT: Function;
-    comparePassword:Function;
+    comparePassword: Function;
 }
 
 const UserSchema: Schema = new Schema({
@@ -28,11 +28,10 @@ UserSchema.methods.createJWT = function () {
     return sign({ userId: this._id, username: this.username }, JWT!, { expiresIn: LIFETIME });
 };
 
-UserSchema.methods.comparePassword = async function(password:string|any){
-    const isMatch = await compare(password,this.password)
+UserSchema.methods.comparePassword = async function (password: string | any) {
+    const isMatch = await compare(password, this.password);
     return isMatch;
-
-}
+};
 
 const UserModel = mongoose.model<User>("User", UserSchema);
 

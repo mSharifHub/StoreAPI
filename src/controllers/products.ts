@@ -1,30 +1,30 @@
-import { Request, Response} from "express";
+import { Request, Response } from "express";
 import "express-async-errors";
 import ProductModel from "../models/products";
 
 export const getAllProducts = async (req: Request, res: Response) => {
-    // const result: any = {};
+    const result: any = {};
 
-    // try {
-    //     const page: number = Number(req.query.page) || 1;
+    try {
+        const page: number = Number(req.query.page) || 1;
 
-    //     const limit: number = Number(req.query.limit) || 10; // 10 items per page
+        const limit: number = Number(req.query.limit) || 10; // 10 items per page
 
-    //     const skip = (page - 1) * limit;
+        const skip = (page - 1) * limit;
 
-    //     const products = await ProductModel.find({}).skip(skip).limit(limit);
+        const products = await ProductModel.find({}).skip(skip).limit(limit);
 
-    //     result.products = products;
-    //     result.nbHits = products.length;
+        result.products = products;
+        result.nbHits = products.length;
 
-    //     return res.status(200).json(result);
-    // } catch (err) {
-    //     result.error = err;
-    //     result.message = "Internal error";
-    //     return res.status(500).json(result);
-    // }
+        return res.status(200).json(result);
+    } catch (err) {
+        result.error = err;
+        result.message = "Internal error";
+        return res.status(500).json(result);
+    }
+
     
-    console.log(`Debugging all produts GET request. req.user: ${req.user}`)
 };
 
 export const getSingleProduct = async (req: Request, res: Response) => {
