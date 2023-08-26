@@ -1,7 +1,9 @@
 import express from "express";
 import { Request, Response } from "express";
+import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
+app.use(cookieParser())
 import * as dotenv from "dotenv";
 dotenv.config();
 import errorHandler from "./middlewares/errorHandlerMiddleWare";
@@ -29,7 +31,7 @@ app.get("/", (req: Request, res: Response) => {
     res.send(`<h1>Store API</h1> <a href = "/api/v1/products> Products Route</a>`);
 });
 
-app.use(addressEndPoints.productsAPI, authenticator, productRouters);
+app.use(addressEndPoints.productsAPI, productRouters);
 app.use(addressEndPoints.authAPI, auhtRouters);
 app.use(notFound);
 app.use(errorHandler);

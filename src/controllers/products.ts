@@ -23,8 +23,6 @@ export const getAllProducts = async (req: Request, res: Response) => {
         result.message = "Internal error";
         return res.status(500).json(result);
     }
-
-    
 };
 
 export const getSingleProduct = async (req: Request, res: Response) => {
