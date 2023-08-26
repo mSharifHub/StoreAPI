@@ -20,7 +20,11 @@ const UserSchema: Schema<User> = new Schema({
         match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Please provide a valid email format"],
         unique: true,
     },
-    password: { type: String, required: [true, "Please provide password"], minLength: [6,'password must be at least 6 characters'] },
+    password: {
+        type: String,
+        required: [true, "Please provide password"],
+        minLength: [6, "password must be at least 6 characters"],
+    },
 });
 
 // UserSchema.pre("save", async function () {

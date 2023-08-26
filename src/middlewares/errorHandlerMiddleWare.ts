@@ -6,7 +6,7 @@ const errorHandler = async (err: any, req: Request, res: Response, next: NextFun
     if (err instanceof CustomAPIError) {
         return res.status(err.statusCode).json({ message: err.message });
     }
-    res.status(500).json({ status: "failure", error: err });next();
+    next();
 };
 
 export default errorHandler;
