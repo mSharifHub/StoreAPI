@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 import { genSalt, hash, compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
-const JWT = process.env.JWT_SECRET;
+
 const LIFETIME = process.env.JWT_LIFETIME;
 
 enum UserRole {
@@ -40,19 +39,15 @@ const UserSchema: Schema<User> = new Schema({
     },
 });
 
-// UserSchema.pre("save", async function () {
-//     const salt = await genSalt(10);
-//     this.password = await hash(this.password, salt);
-// });
+UserSchema.pre("save", async function () {
+    const salt = await genSalt(10);
+    this.password = await hash(this.password, salt);
+});
 
-// UserSchema.methods.createJWT = function () {
-//     return sign({ userId: this._id, username: this.username }, JWT!, { expiresIn: LIFETIME });
-// };
-
-// UserSchema.methods.comparePassword = async function (password: string | any) {
-//     const isMatch = await compare(password, this.password);
-//     return isMatch;
-// };
+UserSchema.methods.comparePassword = async function (password: string | any) {
+    const isMatch = await compare(password, this.password);
+    return isMatch;
+};
 
 const UserModel: Model<User> = mongoose.model<User>("User", UserSchema);
 

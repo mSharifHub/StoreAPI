@@ -1,11 +1,24 @@
 import { NextFunction, Request, Response } from "express";
 import UserModel from "../models/users";
 import { CustomAPIError } from "../middlewares/customError";
+import { createToken, isTokenValid } from "../utils/utils";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await UserModel.create({ ...req.body });
-        res.status(201).json({ response: { user: user } });
+        const userPayload: object = { username: user.username, userId: user._id, role: user.role };
+        const token: string = createToken(userPayload);
+        const day = 1000 * 60 * 60 * 24;
+
+        return res
+            .cookie("token", token, {
+                httpOnly: true,
+                expires: new Date(Date.now() + day),
+                // secure: process.env.NODE_ENV === "production",
+                // signed: true,
+            })
+            .status(201)
+            .json({ response: { user: user } });
     } catch (err: any) {
         if (err.code === 11000) {
             next(new CustomAPIError(400, "email or name already in use"));

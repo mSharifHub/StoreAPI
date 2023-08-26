@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser(/*process.env.JWT_SECRET*/));
 import * as dotenv from "dotenv";
 dotenv.config();
 import errorHandler from "./middlewares/errorHandlerMiddleWare";
@@ -27,8 +27,13 @@ const PORT = process.env.PORT || 3000;
 const IP = process.env.IP!;
 const MONGO_URL = process.env.MONGO_URL!;
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (req, res: Response) => {
     res.send(`<h1>Store API Back End</h1>`);
+});
+
+app.get("/api/v1", (req, res) => {
+    console.log(req.signedCookies);
+    res.send("store api");
 });
 
 app.use(addressEndPoints.productsAPI, productRouters);
