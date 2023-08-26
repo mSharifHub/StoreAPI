@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import "express-async-errors";
 import ProductModel from "../models/products";
 
 export const getAllProducts = async (req: Request, res: Response) => {

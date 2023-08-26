@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 import * as dotenv from "dotenv";
 dotenv.config();
 import errorHandler from "./middlewares/errorHandlerMiddleWare";
@@ -28,7 +28,7 @@ const IP = process.env.IP!;
 const MONGO_URL = process.env.MONGO_URL!;
 
 app.get("/", (req: Request, res: Response) => {
-    res.send(`<h1>Store API</h1> <a href = "/api/v1/products> Products Route</a>`);
+    res.send(`<h1>Store API Back End</h1>`);
 });
 
 app.use(addressEndPoints.productsAPI, productRouters);

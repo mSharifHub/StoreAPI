@@ -4,9 +4,16 @@ import { sign } from "jsonwebtoken";
 const JWT = process.env.JWT_SECRET;
 const LIFETIME = process.env.JWT_LIFETIME;
 
+enum UserRole {
+    admin = "admin",
+    user = "user",
+}
+const { admin, user } = UserRole;
+
 interface User extends Document {
     username: string;
     email: string;
+    role: UserRole;
     password: string;
     createJWT: Function;
     comparePassword: Function;
@@ -24,6 +31,12 @@ const UserSchema: Schema<User> = new Schema({
         type: String,
         required: [true, "Please provide password"],
         minLength: [6, "password must be at least 6 characters"],
+    },
+
+    role: {
+        type: String,
+        enum: [admin, user],
+        default: user,
     },
 });
 

@@ -1,13 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import "express-async-errors";
 import UserModel from "../models/users";
 import { CustomAPIError } from "../middlewares/customError";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await UserModel.create({ ...req.body });
-
-        res.status(201).json({ response: { user: { name: user.username } } });
+        res.status(201).json({ response: { user: user } });
     } catch (err: any) {
         if (err.code === 11000) {
             next(new CustomAPIError(400, "email or name already in use"));

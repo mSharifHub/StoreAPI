@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { CustomAPIError } from "./customError";
-import "express-async-errors";
 
 const errorHandler = async (err: any, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof CustomAPIError) {
