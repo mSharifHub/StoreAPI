@@ -12,7 +12,7 @@ import notFound from "./middlewares/notFound";
 import { connect } from "./database/connection";
 import productRouters from "./routers/products";
 import auhtRouters from "./routers/auth";
-import adminRoutes from "./routers/admin";
+import adminRoutes from "./routers/admin_users";
 // import { authenticator } from "./middlewares/authentication";
 
 interface EndPoints {

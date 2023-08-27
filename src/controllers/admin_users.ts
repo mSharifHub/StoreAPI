@@ -43,9 +43,26 @@ export const updateUserEmail = async (req: Request, res: Response, next: NextFun
 };
 
 export const updateUserPassword = async (req: Request, res: Response, next: NextFunction) => {
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+        return next(new CustomAPIError(400, "Please provide both values"));
+    }
     try {
-        res.status(200).json({ message: "update user password" });
-    } catch (err: any) {}
+        const user = await UserModel.findOne({ _id: req.user.userId });
+        const oldPassWordMatch = await user?.comparePassword(oldPassword);
+
+        if (!oldPassWordMatch) {
+            return next(new CustomAPIError(400, "password does not match"));
+        }
+        user!.password = newPassword;
+
+        await user!.save();
+
+        return res.status(200).json({ response: "password changed successfully" });
+    } catch (err: any) {
+        return next(new CustomAPIError(500, err.message));
+    }
 };
 
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
