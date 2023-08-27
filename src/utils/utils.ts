@@ -6,10 +6,10 @@ const createToken = (payload: object) => {
     return token;
 };
 
-export const isTokenValid = (token: object | any) => jwt.verify(token, process.env.JWT_SECRET!);
+export const isTokenValid = (token:any) => jwt.verify(token, process.env.JWT_SECRET!);
 
 export const attachCookie = (res: Response | any, user: object | any) => {
-    const token = createToken({ payload: user });
+    const token = createToken(user);
 
     const day = 1000 * 60 * 60 * 24;
 

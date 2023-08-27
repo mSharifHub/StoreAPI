@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import UserModel from "../models/users";
 import { CustomAPIError } from "../middlewares/customError";
-import { attachCookie, isTokenValid } from "../utils/utils";
+import { attachCookie } from "../utils/utils";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {

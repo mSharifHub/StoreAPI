@@ -13,7 +13,7 @@ import { connect } from "./database/connection";
 import productRouters from "./routers/products";
 import auhtRouters from "./routers/auth";
 import adminRoutes from "./routers/admin";
-import { authenticator } from "./middlewares/authentication";
+// import { authenticator } from "./middlewares/authentication";
 
 interface EndPoints {
     productsAPI: string;
