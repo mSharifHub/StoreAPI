@@ -14,15 +14,16 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
         req.user = { username: payload.username, userId: payload.userId, role: payload.role };
 
         return next();
-    } catch (err: any) {}
+    } catch (err: any) {
+        return next(new CustomAPIError(403, "authentication failed"));
+    }
 };
 
-export const authorize = (req: Request, _: any, next: NextFunction) => {
-    const { role, username } = req.user;
-
-    if (role !== "admin") {
-        return next(new CustomAPIError(403, `User ${username} not authorized. `));
-    }
-
-    return next();
+export const authorize = (...roles: string | any) => {
+    return (req: Request, _: any, next: NextFunction) => {
+        if (!roles.includes(req.user.role)) {
+            return next(new CustomAPIError(403, "user role not authorized"));
+        }
+        return next();
+    };
 };
