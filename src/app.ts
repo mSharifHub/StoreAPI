@@ -12,16 +12,19 @@ import notFound from "./middlewares/notFound";
 import { connect } from "./database/connection";
 import productRouters from "./routers/products";
 import auhtRouters from "./routers/auth";
+import adminRoutes from "./routers/admin";
 import { authenticator } from "./middlewares/authentication";
 
 interface EndPoints {
     productsAPI: string;
     authAPI: string;
+    adminAPI: string;
 }
 
 const addressEndPoints: EndPoints = {
     productsAPI: "/api/v1/products",
-    authAPI: "/api/v1/",
+    authAPI: "/api/v1/auth",
+    adminAPI: "/api/v1/admin",
 };
 
 const PORT = process.env.PORT || 3000;
@@ -43,6 +46,8 @@ app.get("/", (_, res: Response) => {
 
 app.use(addressEndPoints.productsAPI, productRouters);
 app.use(addressEndPoints.authAPI, auhtRouters);
+app.use(addressEndPoints.adminAPI, adminRoutes);
+
 app.use(notFound);
 app.use(errorHandler);
 

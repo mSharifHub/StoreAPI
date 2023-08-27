@@ -18,7 +18,6 @@ export const authenticator = async (req: Request, res: Response, next: NextFunct
         const payload: Function | any = verify(token, JWT!);
 
         req.user = { userId: payload.userId, username: payload.username };
-
         next();
     } catch (err: any) {
         next(new CustomAPIError(500, err.message));
