@@ -28,28 +28,27 @@ const PORT = process.env.PORT || 3000;
 const IP = process.env.IP!;
 const MONGO_URL = process.env.MONGO_URL!;
 
-// const options: cors.CorsOptions ={
-//     allowedHeaders:[
-//         'Origin',
-//         'X-Requested-Width',
-//         'Content-Type',
-//         "Accept",
-//         'X-Access-Token',
-//     ],
-//     credentials:true,
-//     methods:'GET,HEAD,OPTIONS,PUT.PATCH,POST,DELETE',
-//     origin:
+const options: cors.CorsOptions = {
+    origin: "http://127.0.0.1:3000",
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "POST", "DELETE", "PUT"],
+    optionsSuccessStatus: 200,
+};
 
-// }
-app.use(cors());
-app.use(addressEndPoints.productsAPI, productRouters);
-app.use(addressEndPoints.authAPI, auhtRouters);
-app.use(notFound);
-app.use(errorHandler);
+app.use(cors(options));
 
 app.get("/", (_, res: Response) => {
     return res.send(`<h1>Store API Back End</h1>`);
 });
+
+app.get("/api/v1", (req, res) => {
+    console.log(req.cookies);
+    return res.send("store api");
+});
+app.use(addressEndPoints.productsAPI, productRouters);
+app.use(addressEndPoints.authAPI, auhtRouters);
+app.use(notFound);
+app.use(errorHandler);
 
 const start = async () => {
     try {

@@ -16,6 +16,8 @@ export const attachCookie = (res: Response | any, user: object | any) => {
     res.cookie("token", token, {
         httpOnly: true,
         expires: new Date(Date.now() + day),
+        path: "/",
+        samesite: "Lax",
         // secure: process.env.NODE_ENV === "production",
         // signed: true,
     });
