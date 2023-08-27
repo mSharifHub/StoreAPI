@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "e675b17a-1931-4492-82d7-4179d15e4d51",
+		"name": "StoreAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20085999"
+	},
+	"item": [
+		{
+			"name": "All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/products",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/products/query",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"products",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n\"product\":{\n\n    \"name\":\"\",\n    \"description\":\"\",\n    \"price\": ,\n    \"stock\": ,\n    \"category\": \"\",\n    \"vendors\": \"\"\n\n    }   \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/products/create-product",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"products",
+						"create-product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Product",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "name",
+						"value": "oreo",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/products/delete-product",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"products",
+						"delete-product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single Product",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/products/getSingleProduct",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"products",
+						"getSingleProduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"\",\n    \"email\":\"\",\n    \"password\":\"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/auth/register",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n     \"email\":\"\",\n     \"password\":\"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/auth/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/auth/logout",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/admin/get-all-users",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"admin",
+						"get-all-users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Find Single User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/admin/find-user/*",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"admin",
+						"find-user",
+						"*"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Update User Name",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/admin/update-username",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"admin",
+						"update-username"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Update User Email",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/admin/update-email",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"admin",
+						"update-email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Update Password",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/admin/update-password",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"admin",
+						"update-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/admin/delete-user",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"admin",
+						"delete-user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
