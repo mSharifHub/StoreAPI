@@ -44,7 +44,7 @@ UserSchema.pre("save", async function () {
     this.password = await hash(this.password, salt);
 });
 
-UserSchema.methods.comparePassword = async function (password: string | any) {
+UserSchema.methods.comparePassword = async function (password: string) {
     const isMatch = await compare(password, this.password);
     return isMatch;
 };

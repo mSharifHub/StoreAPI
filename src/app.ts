@@ -27,14 +27,14 @@ const PORT = process.env.PORT || 3000;
 const IP = process.env.IP!;
 const MONGO_URL = process.env.MONGO_URL!;
 
-app.get("/", (req, res: Response) => {
-    res.send(`<h1>Store API Back End</h1>`);
+app.get("/", (_, res: Response) => {
+    return res.send(`<h1>Store API Back End</h1>`);
 });
 
-app.get("/api/v1", (req, res) => {
-    console.log(req.signedCookies);
-    res.send("store api");
-});
+// app.get("/api/v1", (req, res) => {
+//     console.log(req.cookies);
+//     return res.send("store API");
+// });
 
 app.use(addressEndPoints.productsAPI, productRouters);
 app.use(addressEndPoints.authAPI, auhtRouters);
