@@ -2,6 +2,7 @@ import express from "express";
 import { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 const app = express();
+import cors from "cors";
 app.use(express.json());
 app.use(cookieParser(/*process.env.JWT_SECRET*/));
 import * as dotenv from "dotenv";
@@ -27,19 +28,28 @@ const PORT = process.env.PORT || 3000;
 const IP = process.env.IP!;
 const MONGO_URL = process.env.MONGO_URL!;
 
-app.get("/", (_, res: Response) => {
-    return res.send(`<h1>Store API Back End</h1>`);
-});
+// const options: cors.CorsOptions ={
+//     allowedHeaders:[
+//         'Origin',
+//         'X-Requested-Width',
+//         'Content-Type',
+//         "Accept",
+//         'X-Access-Token',
+//     ],
+//     credentials:true,
+//     methods:'GET,HEAD,OPTIONS,PUT.PATCH,POST,DELETE',
+//     origin:
 
-// app.get("/api/v1", (req, res) => {
-//     console.log(req.cookies);
-//     return res.send("store API");
-// });
-
+// }
+app.use(cors());
 app.use(addressEndPoints.productsAPI, productRouters);
 app.use(addressEndPoints.authAPI, auhtRouters);
 app.use(notFound);
 app.use(errorHandler);
+
+app.get("/", (_, res: Response) => {
+    return res.send(`<h1>Store API Back End</h1>`);
+});
 
 const start = async () => {
     try {
