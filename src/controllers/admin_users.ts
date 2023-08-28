@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import UserModel from "../models/users";
 import { CustomAPIError } from "../middlewares/customError";
-import { attachCookie, createUserPayLoad } from "../utils/utils";
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,24 +33,44 @@ export const updateUsername = async (req: Request, res: Response, next: NextFunc
     const { username } = req.body;
 
     if (!username) {
-        return next(new CustomAPIError(400, "Please provide all fields"));
+        return next(new CustomAPIError(400, "Please provide a value"));
     }
-    const user = await UserModel.findOneAndUpdate({ _id: req.user.userId }, { username }, { new: true, runValidators: true });
-    console.log(`debugging the username ${user}`);
-    const payload = createUserPayLoad(user);
-    attachCookie(res, payload);
-    console.log(req.cookies)
-    res.status(201).json({ resonse: "username updated successfully" });
 
     try {
-        res.status(200).json({ message: " update username" });
-    } catch (err: any) {}
+        const user = await UserModel.findOne({ _id: req.user.userId });
+
+        if (!user) {
+            return next(new CustomAPIError(400, "user not found"));
+        }
+
+        user.username = username;
+
+        await user.save();
+
+        return res.status(200).json({ response: { result: "username changed successfully" } });
+    } catch (err: any) {
+        return next(new CustomAPIError(500, err.message));
+    }
 };
 
 export const updateUserEmail = async (req: Request, res: Response, next: NextFunction) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return next(new CustomAPIError(400, "email does not match"));
+    }
     try {
-        res.status(200).json({ message: "update user email" });
-    } catch (err: any) {}
+        const user = await UserModel.findOne({ _id: req.user.userId });
+
+        if (!user) {
+            return next(new CustomAPIError(400, "user not found"));
+        }
+        user.email = email;
+        await user.save();
+        return res.status(200).json({ response: { result: "email changed successfully" } });
+    } catch (err: any) {
+        return next(new CustomAPIError(500, err.message));
+    }
 };
 
 export const updateUserPassword = async (req: Request, res: Response, next: NextFunction) => {
@@ -79,7 +98,21 @@ export const updateUserPassword = async (req: Request, res: Response, next: Next
 };
 
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.body;
+
+    if (req.user.userId !== id && req.user.role !== "admin") {
+        return next(new CustomAPIError(404, "Not authorized "));
+    }
+
     try {
-        res.status(200).json({ message: "delete user" });
-    } catch (err: any) {}
+        const userToDelete = await UserModel.findOneAndDelete({ _id: id });
+
+        if (!userToDelete) {
+            return next(new CustomAPIError(400, "User not found"));
+        }
+
+        return res.status(200).json({ response: "user deleted successfully" });
+    } catch (err: any) {
+        return next(new CustomAPIError(500, err.message));
+    }
 };
