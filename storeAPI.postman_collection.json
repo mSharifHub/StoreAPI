@@ -242,7 +242,7 @@
 			"response": []
 		},
 		{
-			"name": "Admin Update User Name",
+			"name": "Admin||User Update User Name",
 			"request": {
 				"method": "PATCH",
 				"header": [],
@@ -260,7 +260,7 @@
 			"response": []
 		},
 		{
-			"name": "Admin Update User Email",
+			"name": "Admin ||User Update User Email",
 			"request": {
 				"method": "PATCH",
 				"header": [],
@@ -278,10 +278,19 @@
 			"response": []
 		},
 		{
-			"name": "Admin Update Password",
+			"name": "Admin || User  Update Password",
 			"request": {
 				"method": "PATCH",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"oldPassword\":\"\" ,\n    \"newPassword\":\"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{URL}}/admin/update-password",
 					"host": [
@@ -296,10 +305,19 @@
 			"response": []
 		},
 		{
-			"name": "Admin Delete User",
+			"name": "Admin  || User Delete User",
 			"request": {
 				"method": "DELETE",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":\"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{URL}}/admin/delete-user",
 					"host": [
