@@ -9,6 +9,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
         return next(new CustomAPIError(404, "user not authorized"));
     }
     try {
+        
         const payload: any = isTokenValid(token);
 
         req.user = { username: payload.username, userId: payload.userId, role: payload.role };

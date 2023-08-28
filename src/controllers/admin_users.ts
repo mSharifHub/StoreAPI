@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import UserModel from "../models/users";
 import { CustomAPIError } from "../middlewares/customError";
+import { attachCookie, createUserPayLoad } from "../utils/utils";
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -11,7 +12,6 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
         if (numberOfUsers < 1) {
             return next(new CustomAPIError(200, "there are no users registered"));
         }
-
         return res.status(200).json({ response: { usersData: usersData } });
     } catch (err: any) {
         return next(new CustomAPIError(500, err.message));
@@ -31,6 +31,18 @@ export const singleUser = async (req: Request, res: Response, next: NextFunction
 };
 
 export const updateUsername = async (req: Request, res: Response, next: NextFunction) => {
+    const { username } = req.body;
+
+    if (!username) {
+        return next(new CustomAPIError(400, "Please provide all fields"));
+    }
+    const user = await UserModel.findOneAndUpdate({ _id: req.user.userId }, { username }, { new: true, runValidators: true });
+    console.log(`debugging the username ${user}`);
+    const payload = createUserPayLoad(user);
+    attachCookie(res, payload);
+    console.log(req.cookies)
+    res.status(201).json({ resonse: "username updated successfully" });
+
     try {
         res.status(200).json({ message: " update username" });
     } catch (err: any) {}
@@ -50,6 +62,7 @@ export const updateUserPassword = async (req: Request, res: Response, next: Next
     }
     try {
         const user = await UserModel.findOne({ _id: req.user.userId });
+
         const oldPassWordMatch = await user?.comparePassword(oldPassword);
 
         if (!oldPassWordMatch) {

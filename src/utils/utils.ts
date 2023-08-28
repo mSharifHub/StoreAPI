@@ -6,8 +6,6 @@ const createToken = (payload: object) => {
     return token;
 };
 
-export const isTokenValid = (token:any) => jwt.verify(token, process.env.JWT_SECRET!);
-
 export const attachCookie = (res: Response | any, user: object | any) => {
     const token = createToken(user);
 
@@ -21,4 +19,10 @@ export const attachCookie = (res: Response | any, user: object | any) => {
         // secure: process.env.NODE_ENV === "production",
         // signed: true,
     });
+};
+
+export const isTokenValid = (token: any) => jwt.verify(token, JWT!);
+
+export const createUserPayLoad = (user: object | any) => {
+    return { username: user.username, userId: user._id, role: user.role };
 };

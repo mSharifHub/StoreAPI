@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import UserModel from "../models/users";
 import { CustomAPIError } from "../middlewares/customError";
-import { attachCookie } from "../utils/utils";
+import { attachCookie, createUserPayLoad } from "../utils/utils";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await UserModel.create({ ...req.body });
-        const userPayload: object = { username: user.username, userId: user._id, role: user.role };
+
+        const userPayload: object = createUserPayLoad(user);
         attachCookie(res, userPayload);
         res.status(201).json({ response: { user: userPayload } });
     } catch (err: any) {
@@ -40,7 +41,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         if (!passwordMatch) {
             return next(new CustomAPIError(404, "invalid credentials"));
         }
-        const userPayload: object = { username: user.username, userId: user._id, role: user.role };
+        const userPayload: object = createUserPayLoad(user);
+
         attachCookie(res, userPayload);
         return res.status(200).json({ user: userPayload });
     } catch (err: any) {
